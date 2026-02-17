@@ -3,10 +3,6 @@ import { Tabs } from "expo-router";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { ThemeProvider, useAppTheme } from "../src/core/ThemeContext";
 
-/**
- * LayoutContent: Dito natin ilalagay ang actual na Tabs para magamit
- * natin ang useAppTheme() hook at maging dynamic ang Tab Bar colors.
- */
 function LayoutContent() {
   const { theme } = useAppTheme();
 
@@ -69,8 +65,15 @@ function LayoutContent() {
         }}
       />
 
-      {/* Hidden Details Route */}
-      <Tabs.Screen name="details/[id]" options={{ href: null }} />
+      {/* Dahil nilipat na natin ang styles file, 
+          tanging ang mismong dynamic page na lang ang kailangang i-hide. 
+      */}
+      <Tabs.Screen
+        name="details/[id]"
+        options={{
+          href: null, // Wala na ang extra icon, wala pa ang Render Error!
+        }}
+      />
     </Tabs>
   );
 }
