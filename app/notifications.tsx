@@ -8,7 +8,7 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { theme } from "../src/core/theme";
+import { useAppTheme } from "../src/core/ThemeContext"; // Import the context hook
 
 const MOCK_NOTIFS = [
   {
@@ -38,10 +38,16 @@ const MOCK_NOTIFS = [
 ];
 
 export default function NotificationsScreen() {
+  const { theme } = useAppTheme(); // Get the dynamic theme
+
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Notifications</Text>
+        <Text style={[styles.headerTitle, { color: theme.colors.text.main }]}>
+          Notifications
+        </Text>
       </View>
 
       <FlatList
@@ -49,8 +55,18 @@ export default function NotificationsScreen() {
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.list}
         renderItem={({ item }) => (
-          <TouchableOpacity style={styles.notifItem}>
-            <View style={styles.iconContainer}>
+          <TouchableOpacity
+            style={[
+              styles.notifItem,
+              { borderBottomColor: theme.colors.border },
+            ]}
+          >
+            <View
+              style={[
+                styles.iconContainer,
+                { backgroundColor: theme.colors.surface },
+              ]}
+            >
               <Ionicons
                 name={item.type === "update" ? "flash" : "notifications"}
                 size={20}
@@ -59,10 +75,18 @@ export default function NotificationsScreen() {
             </View>
             <View style={styles.content}>
               <View style={styles.notifHeader}>
-                <Text style={styles.title}>{item.title}</Text>
-                <Text style={styles.time}>{item.time}</Text>
+                <Text style={[styles.title, { color: theme.colors.text.main }]}>
+                  {item.title}
+                </Text>
+                <Text style={[styles.time, { color: theme.colors.text.muted }]}>
+                  {item.time}
+                </Text>
               </View>
-              <Text style={styles.description}>{item.description}</Text>
+              <Text
+                style={[styles.description, { color: theme.colors.text.muted }]}
+              >
+                {item.description}
+              </Text>
             </View>
           </TouchableOpacity>
         )}
@@ -72,25 +96,22 @@ export default function NotificationsScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: theme.colors.background },
-  header: { padding: theme.spacing.lg },
+  container: { flex: 1 },
+  header: { padding: 24 }, // spacing.lg equivalent
   headerTitle: {
     fontSize: 28,
     fontWeight: "900",
-    color: theme.colors.text.main,
   },
-  list: { paddingHorizontal: theme.spacing.lg },
+  list: { paddingHorizontal: 24 },
   notifItem: {
     flexDirection: "row",
     paddingVertical: 16,
     borderBottomWidth: 1,
-    borderBottomColor: theme.colors.border,
   },
   iconContainer: {
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: theme.colors.surface,
     justifyContent: "center",
     alignItems: "center",
     marginRight: 12,
@@ -101,7 +122,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginBottom: 4,
   },
-  title: { fontSize: 16, fontWeight: "700", color: theme.colors.text.main },
-  time: { fontSize: 12, color: theme.colors.text.muted },
-  description: { fontSize: 14, color: theme.colors.text.muted, lineHeight: 20 },
+  title: { fontSize: 16, fontWeight: "700" },
+  time: { fontSize: 12 },
+  description: { fontSize: 14, lineHeight: 20 },
 });

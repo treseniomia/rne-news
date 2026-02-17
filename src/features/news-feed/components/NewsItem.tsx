@@ -1,7 +1,7 @@
 import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { BaseCard } from "../../../components/BaseCard";
-import { theme } from "../../../core/theme";
+import { useAppTheme } from "../../../core/ThemeContext";
 import { Article } from "../../../services/newsService";
 
 interface NewsItemProps {
@@ -10,16 +10,36 @@ interface NewsItemProps {
 }
 
 export const NewsItem = ({ article, onPress }: NewsItemProps) => {
+  const { theme } = useAppTheme();
+
   return (
     <BaseCard onPress={() => onPress(article.id)}>
-      <Image source={{ uri: article.imageUrl }} style={styles.image} />
-      <View style={styles.content}>
-        <Text style={styles.category}>{article.category.toUpperCase()}</Text>
-        <Text style={styles.title}>{article.title}</Text>
-        <Text style={styles.summary} numberOfLines={2}>
+      <Image
+        source={{ uri: article.imageUrl }}
+        style={[
+          styles.image,
+          {
+            backgroundColor: theme.colors.border,
+            // Kung wala kang borderRadius.sm sa bagong theme,
+            // gagamitin natin ang md or manual value
+            borderRadius: 8,
+          },
+        ]}
+      />
+      <View style={{ marginTop: theme.spacing.sm }}>
+        <Text style={[styles.category, { color: theme.colors.primary }]}>
+          {article.category.toUpperCase()}
+        </Text>
+        <Text style={[styles.title, { color: theme.colors.text.main }]}>
+          {article.title}
+        </Text>
+        <Text
+          style={[styles.summary, { color: theme.colors.text.muted }]}
+          numberOfLines={2}
+        >
           {article.summary}
         </Text>
-        <Text style={styles.footer}>
+        <Text style={[styles.footer, { color: theme.colors.text.muted }]}>
           By {article.author} • {article.publishedAt}
         </Text>
       </View>
@@ -31,33 +51,24 @@ const styles = StyleSheet.create({
   image: {
     width: "100%",
     height: 180,
-    borderRadius: theme.borderRadius.sm,
-    backgroundColor: theme.colors.border,
-  },
-  content: {
-    marginTop: theme.spacing.sm,
   },
   category: {
     fontSize: 10,
     fontWeight: "bold",
-    color: theme.colors.accent,
     letterSpacing: 1,
     marginBottom: 4,
   },
   title: {
     fontSize: 18,
     fontWeight: "700",
-    color: theme.colors.text.main,
     marginBottom: 8,
   },
   summary: {
     fontSize: 14,
-    color: theme.colors.text.muted,
     lineHeight: 20,
     marginBottom: 12,
   },
   footer: {
     fontSize: 11,
-    color: theme.colors.secondary,
   },
 });

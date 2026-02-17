@@ -2,9 +2,11 @@ import React from "react";
 import { View } from "react-native";
 import { BaseCard } from "../../../components/BaseCard";
 import { Skeleton } from "../../../components/Skeleton";
-import { theme } from "../../../core/theme";
+import { useAppTheme } from "../../../core/ThemeContext";
 
 export const BookmarkSkeleton = () => {
+  const { theme } = useAppTheme(); // Gamitin ang dynamic theme hook
+
   return (
     <View style={{ padding: theme.spacing.md }}>
       {[1, 2, 3].map((key) => (

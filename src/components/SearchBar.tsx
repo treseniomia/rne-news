@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import { StyleSheet, TextInput, View } from "react-native";
-import { theme } from "../core/theme";
+import { useAppTheme } from "../core/ThemeContext"; // Import ang Context
 
 interface SearchBarProps {
   value: string;
@@ -9,8 +9,21 @@ interface SearchBarProps {
 }
 
 export const SearchBar = ({ value, onChangeText }: SearchBarProps) => {
+  const { theme } = useAppTheme(); // Gamitin ang dynamic theme
+
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        {
+          backgroundColor: theme.colors.surface,
+          borderColor: theme.colors.border,
+          borderRadius: 12, // theme.borderRadius.md equivalent
+          marginHorizontal: 24, // theme.spacing.lg equivalent
+          marginBottom: 16, // theme.spacing.md equivalent
+        },
+      ]}
+    >
       <Ionicons
         name="search"
         size={20}
@@ -18,7 +31,7 @@ export const SearchBar = ({ value, onChangeText }: SearchBarProps) => {
         style={styles.icon}
       />
       <TextInput
-        style={styles.input}
+        style={[styles.input, { color: theme.colors.text.main }]}
         placeholder="Search RN updates..."
         placeholderTextColor={theme.colors.text.muted}
         value={value}
@@ -32,19 +45,13 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: theme.colors.surface,
-    borderRadius: theme.borderRadius.md,
     paddingHorizontal: 12,
-    marginHorizontal: theme.spacing.lg,
-    marginBottom: theme.spacing.md,
     borderWidth: 1,
-    borderColor: theme.colors.border,
   },
   icon: { marginRight: 8 },
   input: {
     flex: 1,
     height: 45,
-    color: theme.colors.text.main,
     fontSize: 16,
   },
 });
