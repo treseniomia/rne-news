@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { Animated, ViewStyle } from "react-native";
-import { theme } from "../core/theme";
+import { useAppTheme } from "../core/ThemeContext"; // Import ang Context
 
 interface SkeletonProps {
   width: number | string;
@@ -9,6 +9,7 @@ interface SkeletonProps {
 }
 
 export const Skeleton = ({ width, height, style }: SkeletonProps) => {
+  const { theme } = useAppTheme(); // Gamitin ang dynamic theme
   const opacity = useRef(new Animated.Value(0.3)).current;
 
   useEffect(() => {
@@ -35,8 +36,8 @@ export const Skeleton = ({ width, height, style }: SkeletonProps) => {
           width: width as any,
           height: height as any,
           opacity: opacity,
-          backgroundColor: theme.colors.border,
-          borderRadius: theme.borderRadius.sm,
+          backgroundColor: theme.colors.border, // Dynamic na kulay ng shimmer base sa theme
+          borderRadius: 8, // Standard safe radius
         },
         style,
       ]}

@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, TouchableOpacity, View, ViewStyle } from "react-native";
-import { theme } from "../core/theme";
+import { useAppTheme } from "../core/ThemeContext"; // Import ang Context
 
 interface BaseCardProps {
   children: React.ReactNode;
@@ -9,11 +9,22 @@ interface BaseCardProps {
 }
 
 export const BaseCard = ({ children, style, onPress }: BaseCardProps) => {
+  const { theme } = useAppTheme(); // Gamitin ang dynamic theme
   const Container = onPress ? TouchableOpacity : View;
 
   return (
     <Container
-      style={[styles.card, style]}
+      style={[
+        styles.card,
+        {
+          backgroundColor: theme.colors.surface,
+          borderColor: theme.colors.border,
+          borderRadius: theme.borderRadius.md,
+          padding: theme.spacing.md,
+          marginBottom: theme.spacing.md,
+        },
+        style,
+      ]}
       onPress={onPress}
       activeOpacity={0.8}
     >
@@ -24,17 +35,12 @@ export const BaseCard = ({ children, style, onPress }: BaseCardProps) => {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: theme.colors.surface,
-    borderRadius: theme.borderRadius.md,
-    padding: theme.spacing.md,
     borderWidth: 1,
-    borderColor: theme.colors.border,
-    // Subtle shadow for depth
+    // Shadow properties ay pwedeng manatiling static kung pareho sa light/dark
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.05,
     shadowRadius: 4,
     elevation: 2,
-    marginBottom: theme.spacing.md,
   },
 });

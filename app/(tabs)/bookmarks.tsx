@@ -2,23 +2,28 @@ import { useRouter } from "expo-router";
 import React from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { theme } from "../src/core/theme";
-import { BookmarkSkeleton } from "../src/features/bookmarks/components/BookmarkSkeleton"; // Import ito
-import { useBookmarks } from "../src/features/bookmarks/hooks/useBookmarks";
-import { NewsItem } from "../src/features/news-feed/components/NewsItem";
+import { useAppTheme } from "../../src/core/ThemeContext"; // Import ang dynamic theme context
+import { BookmarkSkeleton } from "../../src/features/bookmarks/components/BookmarkSkeleton";
+import { useBookmarks } from "../../src/features/bookmarks/hooks/useBookmarks";
+import { NewsItem } from "../../src/features/news-feed/components/NewsItem";
 
 export default function BookmarksScreen() {
   const { savedArticles, isLoading } = useBookmarks();
+  const { theme } = useAppTheme(); // Gamitin ang dynamic theme
   const router = useRouter();
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Saved Stories</Text>
+        <Text style={[styles.headerTitle, { color: theme.colors.text.main }]}>
+          Saved Stories
+        </Text>
       </View>
 
       {isLoading ? (
-        <BookmarkSkeleton /> // Eto na yung "Pulse" effect habang nag-load
+        <BookmarkSkeleton />
       ) : (
         <FlatList
           data={savedArticles}
@@ -32,8 +37,17 @@ export default function BookmarksScreen() {
           contentContainerStyle={styles.listContent}
           ListEmptyComponent={
             <View style={styles.emptyContainer}>
-              <Text style={styles.emptyText}>No bookmarks yet.</Text>
-              <Text style={styles.emptySubtext}>
+              <Text
+                style={[styles.emptyText, { color: theme.colors.text.main }]}
+              >
+                No bookmarks yet.
+              </Text>
+              <Text
+                style={[
+                  styles.emptySubtext,
+                  { color: theme.colors.text.muted },
+                ]}
+              >
                 Stories you save will appear here.
               </Text>
             </View>
@@ -45,17 +59,20 @@ export default function BookmarksScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: theme.colors.background },
+  container: {
+    flex: 1,
+  },
   header: {
-    paddingHorizontal: theme.spacing.lg,
-    paddingVertical: theme.spacing.md,
+    paddingHorizontal: 24, // spacing.lg equivalent
+    paddingVertical: 16, // spacing.md equivalent
   },
   headerTitle: {
     fontSize: 28,
     fontWeight: "900",
-    color: theme.colors.text.main,
   },
-  listContent: { padding: theme.spacing.md },
+  listContent: {
+    padding: 16, // spacing.md equivalent
+  },
   emptyContainer: {
     flex: 1,
     alignItems: "center",
@@ -65,11 +82,9 @@ const styles = StyleSheet.create({
   emptyText: {
     fontSize: 18,
     fontWeight: "600",
-    color: theme.colors.text.main,
   },
   emptySubtext: {
     fontSize: 14,
-    color: theme.colors.text.muted,
     marginTop: 8,
   },
 });
