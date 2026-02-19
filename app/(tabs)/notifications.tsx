@@ -8,7 +8,7 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useAppTheme } from "../src/core/ThemeContext"; // Import the context hook
+import { useAppTheme } from "../../src/core/ThemeContext"; // Import the context hook
 
 const MOCK_NOTIFS = [
   {

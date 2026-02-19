@@ -2,10 +2,10 @@ import { useRouter } from "expo-router";
 import React from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useAppTheme } from "../src/core/ThemeContext"; // Import ang dynamic theme context
-import { BookmarkSkeleton } from "../src/features/bookmarks/components/BookmarkSkeleton";
-import { useBookmarks } from "../src/features/bookmarks/hooks/useBookmarks";
-import { NewsItem } from "../src/features/news-feed/components/NewsItem";
+import { useAppTheme } from "../../src/core/ThemeContext"; // Import ang dynamic theme context
+import { BookmarkSkeleton } from "../../src/features/bookmarks/components/BookmarkSkeleton";
+import { useBookmarks } from "../../src/features/bookmarks/hooks/useBookmarks";
+import { NewsItem } from "../../src/features/news-feed/components/NewsItem";
 
 export default function BookmarksScreen() {
   const { savedArticles, isLoading } = useBookmarks();
