@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import { StyleSheet, TextInput, View } from "react-native";
-import { useAppTheme } from "../core/ThemeContext"; // Import ang Context
+import { useAppTheme } from "../../core/ThemeContext"; // Import ang Context
 
 interface SearchBarProps {
   value: string;

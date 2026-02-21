@@ -1,11 +1,11 @@
+import { useAppTheme } from "@core/ThemeContext";
+import { BaseCard } from "@shared/components/BaseCard";
+import { Skeleton } from "@shared/components/Skeleton";
 import React from "react";
 import { View } from "react-native";
-import { BaseCard } from "../../../components/BaseCard";
-import { Skeleton } from "../../../components/Skeleton";
-import { useAppTheme } from "../../../core/ThemeContext";
 
 export const BookmarkSkeleton = () => {
-  const { theme } = useAppTheme(); // Gamitin ang dynamic theme hook
+  const { theme } = useAppTheme();
 
   return (
     <View style={{ padding: theme.spacing.md }}>

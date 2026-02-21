@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, TouchableOpacity, View, ViewStyle } from "react-native";
-import { useAppTheme } from "../core/ThemeContext"; // Import ang Context
+import { useAppTheme } from "../../core/ThemeContext"; // Import ang Context
 
 interface BaseCardProps {
   children: React.ReactNode;

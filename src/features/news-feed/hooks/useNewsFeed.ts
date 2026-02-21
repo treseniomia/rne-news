@@ -1,27 +1,23 @@
-// src/features/news-feed/hooks/useNewsFeed.ts
 import { useCallback, useEffect, useState } from "react";
-import { Article, newsService } from "../../../services/newsService";
+import { newsService } from "../services/newsService";
+import { Article, NewsCategory } from "../types";
 
 export const useNewsFeed = () => {
   const [articles, setArticles] = useState<Article[]>([]);
   const [filteredArticles, setFilteredArticles] = useState<Article[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedCategory, setSelectedCategory] = useState<NewsCategory>("All");
 
   const fetchNews = useCallback(async () => {
     setIsLoading(true);
     try {
       const data = await newsService.getLatestNews();
       setArticles(data);
-
-      // I-apply ang current filter pagkatapos mag-fetch
-      if (selectedCategory === "All") {
-        setFilteredArticles(data);
-      } else {
-        setFilteredArticles(
-          data.filter((a) => a.category === selectedCategory)
-        );
-      }
+      setFilteredArticles(
+        selectedCategory === "All"
+          ? data
+          : data.filter((a) => a.category === selectedCategory)
+      );
     } catch (error) {
       console.error("Error fetching news:", error);
     } finally {
@@ -29,7 +25,7 @@ export const useNewsFeed = () => {
     }
   }, [selectedCategory]);
 
-  const filterByCategory = (category: string) => {
+  const filterByCategory = (category: NewsCategory) => {
     setSelectedCategory(category);
     if (category === "All") {
       setFilteredArticles(articles);
@@ -40,14 +36,14 @@ export const useNewsFeed = () => {
 
   useEffect(() => {
     fetchNews();
-  }, []); // Run once on mount
+  }, [fetchNews]);
 
   return {
     articles: filteredArticles,
     isLoading,
     selectedCategory,
     filterByCategory,
-    refresh: fetchNews, // Binalik natin ito para sa FlatList
-    categories: ["All", "Libraries", "Expo", "Core", "Test"],
+    refresh: fetchNews,
+    categories: ["All", "Libraries", "Expo", "Core", "Test"] as NewsCategory[],
   };
 };
