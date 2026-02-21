@@ -1,6 +1,6 @@
+import { bookmarkService } from "@/features/bookmarks/services/bookmarkService";
+import { Article } from "@/features/news-feed/services/newsService";
 import { useEffect, useState } from "react";
-import { bookmarkService } from "../../../services/bookmarkService";
-import { Article } from "../../../services/newsService";
 
 export const useBookmarks = (article?: Article) => {
   const [isSaved, setIsSaved] = useState(false);

@@ -1,8 +1,8 @@
 import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
-import { BaseCard } from "../../../components/BaseCard";
-import { useAppTheme } from "../../../core/ThemeContext";
-import { Article } from "../../../services/newsService";
+import { useAppTheme } from "../../core/ThemeContext";
+import { Article } from "../../features/news-feed/services/newsService";
+import { BaseCard } from "./BaseCard";
 
 interface NewsItemProps {
   article: Article;

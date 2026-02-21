@@ -2,15 +2,22 @@
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "strict": true,
+    "ignoreDeprecations": "6.0",
+    "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./*"
-      ]
+      "@/*": ["src/*"],
+      "@core/*": ["src/core/*"],
+      "@shared/*": ["src/shared/*"],
+      "@features/*": ["src/features/*"],
+      "@assets/*": ["src/assets/*"],
+      "@services/*": ["src/features/news-feed/services/*"]
     }
   },
   "include": [
     "**/*.ts",
     "**/*.tsx",
+    "app/**/*.ts",
+    "app/**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
   ]

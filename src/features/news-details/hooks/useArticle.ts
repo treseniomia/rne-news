@@ -1,6 +1,7 @@
-// src/features/news-details/hooks/useArticle.ts
 import { useEffect, useState } from "react";
-import { Article, newsService } from "../../../services/newsService";
+// INDUSTRY-GRADE: Use centralized types and absolute aliases
+import { newsService } from "@features/news-feed/services/newsService";
+import { Article } from "@features/news-feed/types";
 
 export const useArticle = (id: string) => {
   const [article, setArticle] = useState<Article | null>(null);
@@ -9,12 +10,15 @@ export const useArticle = (id: string) => {
   useEffect(() => {
     const fetchArticle = async () => {
       setIsLoading(true);
-      // Sa totoong app, may api.getArticleById(id) tayo.
-      // For now, kukunin natin lahat at hahanapin yung ID.
-      const allNews = await newsService.getLatestNews();
-      const found = allNews.find((a) => a.id === id);
-      setArticle(found || null);
-      setIsLoading(false);
+      try {
+        const allNews = await newsService.getLatestNews();
+        const found = allNews.find((a) => a.id === id);
+        setArticle(found || null);
+      } catch (error) {
+        console.error("Error fetching article details:", error);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
     if (id) fetchArticle();
