@@ -1,35 +1,6 @@
-// import React, { createContext, useContext, useState } from "react";
-
-// type AuthContextType = {
-//   isLoggedIn: boolean;
-//   login: () => void;
-//   logout: () => void;
-// };
-
-// const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-// export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-//   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-//   const login = () => setIsLoggedIn(true);
-//   const logout = () => setIsLoggedIn(false);
-
-//   return (
-//     <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
-//       {children}
-//     </AuthContext.Provider>
-//   );
-// };
-
-// export const useAuth = () => {
-//   const context = useContext(AuthContext);
-//   if (!context) throw new Error("useAuth must be used within an AuthProvider");
-//   return context;
-// };
-
+import { authService } from "@features/auth/services/authService";
 import { useRouter, useSegments } from "expo-router";
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { authService } from "../features/auth/services/authService";
 
 type AuthContextType = {
   isLoggedIn: boolean;
@@ -49,6 +20,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const initAuth = async () => {
       const token = await authService.getToken();
+      console.log("Current Token in Storage:", token);
       setIsLoggedIn(!!token);
       setIsLoading(false);
     };

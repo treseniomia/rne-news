@@ -9,7 +9,7 @@ interface BaseCardProps {
 }
 
 export const BaseCard = ({ children, style, onPress }: BaseCardProps) => {
-  const { theme } = useAppTheme(); // Gamitin ang dynamic theme
+  const { theme } = useAppTheme();
   const Container = onPress ? TouchableOpacity : View;
 
   return (

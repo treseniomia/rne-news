@@ -8,7 +8,7 @@ const createStyles = (theme: any, insets: any) =>
       flex: 1,
       backgroundColor: theme.colors.background,
     },
-    // Floating navigation buttons over the image
+
     navOverlay: {
       position: "absolute",
       top: insets.top + 10,
@@ -26,14 +26,14 @@ const createStyles = (theme: any, insets: any) =>
       justifyContent: "center",
       alignItems: "center",
     },
-    // Fixed Top Section (Image + Title Area)
+
     fixedTopSection: {
       width: "100%",
       backgroundColor: theme.colors.background,
     },
     image: {
       width: "100%",
-      height: 250, // Standard height para hindi kainin ang buong screen
+      height: 250,
     },
     headerContent: {
       paddingHorizontal: 24,
@@ -91,4 +91,4 @@ const createStyles = (theme: any, insets: any) =>
     center: { flex: 1, justifyContent: "center", alignItems: "center" },
   });
 
-export default createStyles; // Siguradong mawawala ang warning dito
+export default createStyles;

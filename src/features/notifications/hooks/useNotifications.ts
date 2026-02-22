@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from "react";
-// INDUSTRY-GRADE: Direct alias imports
 import {
   AppNotification,
   fetchNotifications,
