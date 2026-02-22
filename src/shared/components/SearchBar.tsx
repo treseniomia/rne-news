@@ -1,7 +1,7 @@
+import { useAppTheme } from "@core/ThemeContext";
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import { StyleSheet, TextInput, View } from "react-native";
-import { useAppTheme } from "../../core/ThemeContext"; // Import ang Context
 
 interface SearchBarProps {
   value: string;
@@ -9,7 +9,7 @@ interface SearchBarProps {
 }
 
 export const SearchBar = ({ value, onChangeText }: SearchBarProps) => {
-  const { theme } = useAppTheme(); // Gamitin ang dynamic theme
+  const { theme } = useAppTheme();
 
   return (
     <View
@@ -18,9 +18,9 @@ export const SearchBar = ({ value, onChangeText }: SearchBarProps) => {
         {
           backgroundColor: theme.colors.surface,
           borderColor: theme.colors.border,
-          borderRadius: 12, // theme.borderRadius.md equivalent
-          marginHorizontal: 24, // theme.spacing.lg equivalent
-          marginBottom: 16, // theme.spacing.md equivalent
+          borderRadius: 12,
+          marginHorizontal: 24,
+          marginBottom: 16,
         },
       ]}
     >

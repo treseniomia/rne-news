@@ -8,7 +8,6 @@ export interface UserProfile {
 }
 
 export const profileService = {
-  // Simulating an API call to get user profile
   getUserProfile: async (): Promise<UserProfile> => {
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -25,7 +24,6 @@ export const profileService = {
   },
 
   logout: async () => {
-    // Dito ilalagay ang Auth clearing logic balang araw
     console.log("User logged out");
   },
 };

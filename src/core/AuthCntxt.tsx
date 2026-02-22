@@ -1,6 +1,7 @@
+
+import { authService } from "@features/auth/services/authService";
 import { useRouter, useSegments } from "expo-router";
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { authService } from "../features/auth/services/authService";
 
 type AuthContextType = {
   isLoggedIn: boolean;
@@ -20,6 +21,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const initAuth = async () => {
       const token = await authService.getToken();
+      console.log("Current Token in Storage:", token);
       setIsLoggedIn(!!token);
       setIsLoading(false);
     };

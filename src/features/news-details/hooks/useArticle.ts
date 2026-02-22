@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
-// INDUSTRY-GRADE: Use centralized types and absolute aliases
 import { newsService } from "@features/news-feed/services/newsService";
 import { Article } from "@features/news-feed/types";
+import { useEffect, useState } from "react";
 
 export const useArticle = (id: string) => {
   const [article, setArticle] = useState<Article | null>(null);

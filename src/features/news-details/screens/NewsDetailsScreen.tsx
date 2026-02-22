@@ -35,11 +35,11 @@ export const NewsDetailsScreen: React.FC<Props> = ({ id }) => {
   const onShare = async () => {
     try {
       await Share.share({
-        message: `${article?.title}\n\nBasahin sa PulseNews!`,
+        message: `${article?.title}\n\nRead on RNE News!`,
         title: article?.title,
       });
     } catch (error) {
-      Alert.alert("Error", "Hindi ma-ishare ang article.");
+      Alert.alert("Error", "Can't share the article.");
     }
   };
 

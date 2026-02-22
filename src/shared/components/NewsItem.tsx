@@ -1,7 +1,7 @@
+import { useAppTheme } from "@core/ThemeContext";
+import { Article } from "@features/news-feed/services/newsService";
 import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
-import { useAppTheme } from "../../core/ThemeContext";
-import { Article } from "../../features/news-feed/services/newsService";
 import { BaseCard } from "./BaseCard";
 
 interface NewsItemProps {
@@ -20,8 +20,6 @@ export const NewsItem = ({ article, onPress }: NewsItemProps) => {
           styles.image,
           {
             backgroundColor: theme.colors.border,
-            // Kung wala kang borderRadius.sm sa bagong theme,
-            // gagamitin natin ang md or manual value
             borderRadius: 8,
           },
         ]}
