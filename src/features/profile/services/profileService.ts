@@ -12,9 +12,9 @@ export const profileService = {
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve({
-          name: "React Native Dev",
+          name: "Mia Tresenio",
           bio: "Tracking RN 0.78 & Expo 54 Updates",
-          initials: "JD",
+          initials: "MT",
           stats: {
             readCount: 12,
           },

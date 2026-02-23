@@ -4,7 +4,6 @@ import { useBookmarks } from "@features/bookmarks/hooks/useBookmarks";
 import { useRouter } from "expo-router";
 import React, { useMemo, useRef, useState } from "react";
 import {
-  ActivityIndicator,
   Alert,
   Animated,
   Image,
@@ -14,6 +13,7 @@ import {
   View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { NewsDetailsSkeleton } from "../components/NewsDetailsSkeleton"; //
 import createStyles from "../details.styles";
 import { useArticle } from "../hooks/useArticle";
 
@@ -49,18 +49,16 @@ export const NewsDetailsScreen: React.FC<Props> = ({ id }) => {
     extrapolate: "clamp",
   });
 
+  // 🛠️ Industrial Fix: Pinalitan ang blue ActivityIndicator ng Skeleton
   if (isLoading || !article) {
-    return (
-      <View
-        style={[styles.center, { backgroundColor: theme.colors.background }]}
-      >
-        <ActivityIndicator color={theme.colors.primary} size="large" />
-      </View>
-    );
+    return <NewsDetailsSkeleton />;
   }
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
+      {/* Navigation Overlay (Back, Share, Bookmark) */}
       <View style={styles.navOverlay}>
         <TouchableOpacity
           onPress={() => router.back()}
@@ -88,6 +86,7 @@ export const NewsDetailsScreen: React.FC<Props> = ({ id }) => {
         </View>
       </View>
 
+      {/* Fixed Top Section: Hero Image & Title */}
       <View style={styles.fixedTopSection}>
         <Image source={{ uri: article.imageUrl }} style={styles.image} />
         <View
@@ -115,6 +114,7 @@ export const NewsDetailsScreen: React.FC<Props> = ({ id }) => {
         <View style={styles.divider} />
       </View>
 
+      {/* Side Progress Bar Indicator */}
       <View style={styles.sideProgressContainer}>
         <Animated.View
           style={[
@@ -124,6 +124,7 @@ export const NewsDetailsScreen: React.FC<Props> = ({ id }) => {
         />
       </View>
 
+      {/* Main Content Area */}
       <Animated.ScrollView
         onContentSizeChange={(_, height) => setContentHeight(height)}
         onScroll={Animated.event(
@@ -131,7 +132,10 @@ export const NewsDetailsScreen: React.FC<Props> = ({ id }) => {
           { useNativeDriver: false }
         )}
         scrollEventThrottle={16}
-        contentContainerStyle={{ paddingBottom: insets.bottom + 40 }}
+        contentContainerStyle={{
+          paddingBottom: insets.bottom + 40,
+          paddingHorizontal: 20,
+        }}
       >
         <Text style={[styles.bodyText, { color: theme.colors.text.main }]}>
           {article.summary}

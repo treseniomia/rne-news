@@ -1,12 +1,7 @@
 import React from "react";
-import {
-  ActivityIndicator,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { ProfileSkeleton } from "../components/ProfileSkeleton"; //
 import { SettingItem } from "../components/SettingItem";
 import { useProfile } from "../hooks/useProfile";
 
@@ -22,13 +17,7 @@ export const ProfileScreen = () => {
   } = useProfile();
 
   if (isLoading || !user) {
-    return (
-      <View
-        style={[styles.center, { backgroundColor: theme.colors.background }]}
-      >
-        <ActivityIndicator color={theme.colors.primary} size="large" />
-      </View>
-    );
+    return <ProfileSkeleton />;
   }
 
   return (
@@ -51,6 +40,7 @@ export const ProfileScreen = () => {
             {user.bio}
           </Text>
 
+          {/* Stats Container (Matches Skeleton structure) */}
           <View
             style={[
               styles.statsContainer,
@@ -90,6 +80,7 @@ export const ProfileScreen = () => {
           </View>
         </View>
 
+        {/* App Settings Section */}
         <View style={styles.section}>
           <Text
             style={[styles.sectionTitle, { color: theme.colors.text.muted }]}
@@ -110,6 +101,7 @@ export const ProfileScreen = () => {
           />
         </View>
 
+        {/* Account Section */}
         <View style={[styles.section, { marginBottom: 40 }]}>
           <Text
             style={[styles.sectionTitle, { color: theme.colors.text.muted }]}
@@ -117,7 +109,7 @@ export const ProfileScreen = () => {
             Account
           </Text>
           <SettingItem
-            onPress={handleLogout} // LOG OUT IS NOW ACTIVE!
+            onPress={handleLogout}
             icon="log-out-outline"
             title="Log Out"
             isDestructive
@@ -131,7 +123,6 @@ export const ProfileScreen = () => {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  center: { flex: 1, justifyContent: "center", alignItems: "center" },
   header: { alignItems: "center", padding: 32, borderBottomWidth: 1 },
   avatar: {
     width: 80,
