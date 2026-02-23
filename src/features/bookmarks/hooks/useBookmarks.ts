@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 export const useBookmarks = (article?: Article) => {
   const [isSaved, setIsSaved] = useState(false);
   const [savedArticles, setSavedArticles] = useState<Article[]>([]);
-  const [isLoading, setIsLoading] = useState(true); // Idagdag ito
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchStatus = async () => {
@@ -17,7 +17,6 @@ export const useBookmarks = (article?: Article) => {
       const all = await bookmarkService.getBookmarks();
       setSavedArticles(all);
 
-      // Kaunting delay para makita ang "Pulse" effect
       setTimeout(() => setIsLoading(false), 800);
     };
     fetchStatus();
@@ -27,7 +26,7 @@ export const useBookmarks = (article?: Article) => {
     if (!article) return;
     const result = await bookmarkService.toggleBookmark(article);
     setIsSaved(result);
-    // Refresh the list
+
     const all = await bookmarkService.getBookmarks();
     setSavedArticles(all);
   };

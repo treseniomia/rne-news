@@ -1,24 +1,28 @@
+import { useAppTheme } from "@core/ThemeContext";
 import { Ionicons } from "@expo/vector-icons";
+import { NewsItem } from "@shared/components/NewsItem";
 import { useRouter } from "expo-router";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
-  ActivityIndicator,
   FlatList,
   ScrollView,
-  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-
-import { useAppTheme } from "@core/ThemeContext";
-import { NewsItem } from "@shared/components/NewsItem";
+import { NewsFeedSkeleton } from "../components/NewsFeedSkeleton";
+import { createStyles } from "../feed.styles";
 import { useNewsFeed } from "../hooks/useNewsFeed";
 import { NewsCategory } from "../types";
 
 export const NewsFeedScreen = () => {
+  const router = useRouter();
+  const { theme } = useAppTheme();
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // Custom Hook for Logic
   const {
     articles,
     isLoading,
@@ -27,37 +31,34 @@ export const NewsFeedScreen = () => {
     filterByCategory,
     categories,
   } = useNewsFeed();
-  const router = useRouter();
-  const { theme } = useAppTheme();
-  const [searchQuery, setSearchQuery] = useState("");
 
-  const filteredArticles = articles.filter((article) => {
-    const matchesSearch = article.title
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase());
-    return matchesSearch;
-  });
+  // Memoized Styles
+  const styles = useMemo(() => createStyles(theme), [theme]);
 
-  if (isLoading && articles.length === 0) {
-    return (
-      <View
-        style={[styles.center, { backgroundColor: theme.colors.background }]}
-      >
-        <ActivityIndicator color={theme.colors.primary} size="large" />
-      </View>
+  // Derived State: Filtering Logic
+  const filteredArticles = useMemo(() => {
+    return articles.filter((article) =>
+      article.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
+  }, [articles, searchQuery]);
+
+  // 🦴 Loading State:
+  if (isLoading && articles.length === 0) {
+    return <NewsFeedSkeleton />;
   }
 
   return (
     <SafeAreaView
       style={[styles.container, { backgroundColor: theme.colors.background }]}
     >
+      {/* 1. Header Section */}
       <View style={styles.header}>
         <Text style={[styles.headerTitle, { color: theme.colors.text.main }]}>
           RNE News
         </Text>
       </View>
 
+      {/* 2. Search Section */}
       <View
         style={[
           styles.searchContainer,
@@ -91,6 +92,7 @@ export const NewsFeedScreen = () => {
         )}
       </View>
 
+      {/* 3. Horizontal Categories */}
       <View>
         <ScrollView
           horizontal
@@ -100,6 +102,7 @@ export const NewsFeedScreen = () => {
           {categories.map((cat) => (
             <TouchableOpacity
               key={cat}
+              onPress={() => filterByCategory(cat as NewsCategory)}
               style={[
                 styles.chip,
                 {
@@ -111,7 +114,6 @@ export const NewsFeedScreen = () => {
                   borderColor: theme.colors.primary,
                 },
               ]}
-              onPress={() => filterByCategory(cat as NewsCategory)}
             >
               <Text
                 style={[
@@ -127,18 +129,20 @@ export const NewsFeedScreen = () => {
         </ScrollView>
       </View>
 
+      {/* 4. Main Feed */}
       <FlatList
         data={filteredArticles}
         keyExtractor={(item) => item.id}
+        contentContainerStyle={styles.listContent}
+        onRefresh={refresh}
+        refreshing={isLoading}
+        showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
           <NewsItem
             article={item}
             onPress={(id) => router.push(`/details/${id}`)}
           />
         )}
-        contentContainerStyle={styles.listContent}
-        onRefresh={refresh}
-        refreshing={isLoading}
         ListEmptyComponent={
           <View style={styles.center}>
             <Ionicons
@@ -149,7 +153,8 @@ export const NewsFeedScreen = () => {
             <Text
               style={[styles.emptyText, { color: theme.colors.text.muted }]}
             >
-              No matches found for "{searchQuery}"
+              No matches found
+              {/* "{searchQuery}" */}
             </Text>
           </View>
         }
@@ -157,38 +162,3 @@ export const NewsFeedScreen = () => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: { flex: 1 },
-  header: { paddingHorizontal: 24, paddingTop: 16, paddingBottom: 8 },
-  headerTitle: { fontSize: 32, fontWeight: "900", letterSpacing: -1 },
-  searchContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    borderRadius: 12,
-    marginHorizontal: 24,
-    paddingHorizontal: 12,
-    height: 45,
-    borderWidth: 1,
-    marginBottom: 4,
-  },
-  searchIcon: { marginRight: 8 },
-  searchInput: { flex: 1, fontSize: 16 },
-  categoryList: { paddingHorizontal: 24, paddingVertical: 16, gap: 10 },
-  chip: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 25,
-    borderWidth: 1,
-    marginRight: 8,
-  },
-  chipText: { fontSize: 14, fontWeight: "600" },
-  listContent: { padding: 16 },
-  center: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingTop: 100,
-  },
-  emptyText: { fontSize: 16, marginTop: 10, textAlign: "center" },
-});

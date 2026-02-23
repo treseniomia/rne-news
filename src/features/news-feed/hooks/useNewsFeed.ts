@@ -13,13 +13,17 @@ export const useNewsFeed = () => {
     try {
       const data = await newsService.getLatestNews();
       setArticles(data);
-      setFilteredArticles(
-        selectedCategory === "All"
-          ? data
-          : data.filter((a) => a.category === selectedCategory)
-      );
+
+      // Initial filter based on what's currently selected
+      if (selectedCategory === "All") {
+        setFilteredArticles(data);
+      } else {
+        setFilteredArticles(
+          data.filter((a) => a.category === selectedCategory)
+        );
+      }
     } catch (error) {
-      console.error("Error fetching news:", error);
+      console.error("Hook Error:", error);
     } finally {
       setIsLoading(false);
     }
@@ -30,13 +34,15 @@ export const useNewsFeed = () => {
     if (category === "All") {
       setFilteredArticles(articles);
     } else {
-      setFilteredArticles(articles.filter((a) => a.category === category));
+      // Direct filtering from the main articles pool
+      const results = articles.filter((a) => a.category === category);
+      setFilteredArticles(results);
     }
   };
 
   useEffect(() => {
     fetchNews();
-  }, [fetchNews]);
+  }, []); // Run only once on mount to prevent infinite loops
 
   return {
     articles: filteredArticles,

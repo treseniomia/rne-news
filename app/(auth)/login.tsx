@@ -1,6 +1,7 @@
 import { useAppTheme } from "@core/ThemeContext";
 import { AuthHeader } from "@features/auth/components/AuthHeader";
 import { LoginForm } from "@features/auth/components/LoginForm";
+import { SocialAuth } from "@features/auth/components/SocialAuth";
 import { useLogin } from "@features/auth/hooks/useLogin";
 import { createAuthStyles } from "@features/auth/styles/auth.styles";
 import { useRouter } from "expo-router";
@@ -41,6 +42,13 @@ export default function LoginScreen() {
           />
 
           <LoginForm {...loginLogic} theme={theme} styles={styles} />
+
+          <SocialAuth
+            theme={theme}
+            onGooglePress={loginLogic.handleGoogleLogin}
+            onApplePress={loginLogic.handleAppleLogin}
+            onFacebookPress={loginLogic.handleFacebookLogin}
+          />
 
           <View style={styles.footer}>
             <View style={{ flexDirection: "row" }}>

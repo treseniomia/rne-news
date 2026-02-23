@@ -1,6 +1,5 @@
 import { Platform, StyleSheet } from "react-native";
 
-// Ginagawa nating function para dynamic ang colors base sa theme
 export const createAuthStyles = (theme: any) =>
   StyleSheet.create({
     container: {

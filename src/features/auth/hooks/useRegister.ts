@@ -18,6 +18,13 @@ export const useRegister = () => {
     login(email);
   };
 
+  const handleGoogleRegister = () =>
+    console.log("Google Register Triggered, Boss!");
+  const handleAppleRegister = () =>
+    console.log("Apple Register Triggered, Boss!");
+  const handleFacebookRegister = () =>
+    console.log("Facebook Register Triggered, Boss!");
+
   return {
     fullName,
     setFullName,
@@ -28,5 +35,9 @@ export const useRegister = () => {
     showPassword,
     setShowPassword,
     handleRegister,
+
+    handleGoogleRegister,
+    handleAppleRegister,
+    handleFacebookRegister,
   };
 };

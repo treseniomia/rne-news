@@ -1,3 +1,4 @@
+import { ScreenHeader } from "@/shared/components/ScreenHeader";
 import { useAppTheme } from "@core/ThemeContext";
 import { NewsItem } from "@shared/components/NewsItem";
 import { useRouter } from "expo-router";
@@ -16,11 +17,12 @@ export const BookmarksScreen = () => {
     <SafeAreaView
       style={[styles.container, { backgroundColor: theme.colors.background }]}
     >
-      <View style={styles.header}>
+      {/* <View style={styles.header}>
         <Text style={[styles.headerTitle, { color: theme.colors.text.main }]}>
-          Saved Stories
+          Bookmarks
         </Text>
-      </View>
+      </View> */}
+      <ScreenHeader title="Bookmarks" />
 
       {isLoading ? (
         <BookmarkSkeleton />
@@ -60,7 +62,8 @@ export const BookmarksScreen = () => {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  header: { paddingHorizontal: 24, paddingVertical: 16 },
+
+  header: { padding: 24 },
   headerTitle: { fontSize: 28, fontWeight: "900" },
   listContent: { padding: 16 },
   emptyContainer: {

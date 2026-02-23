@@ -1,6 +1,7 @@
 import { useAppTheme } from "@core/ThemeContext";
 import { AuthHeader } from "@features/auth/components/AuthHeader";
 import { RegisterForm } from "@features/auth/components/RegisterForm";
+import { SocialAuth } from "@features/auth/components/SocialAuth"; // Import ito
 import { useRegister } from "@features/auth/hooks/useRegister";
 import { createAuthStyles } from "@features/auth/styles/auth.styles";
 import { useRouter } from "expo-router";
@@ -45,6 +46,13 @@ export default function RegisterScreen() {
             />
 
             <RegisterForm {...registerLogic} theme={theme} styles={styles} />
+
+            <SocialAuth
+              theme={theme}
+              onGooglePress={registerLogic.handleGoogleRegister}
+              onApplePress={registerLogic.handleAppleRegister}
+              onFacebookPress={registerLogic.handleFacebookRegister}
+            />
 
             <View style={styles.footer}>
               <Text style={{ color: theme.colors.text.muted }}>

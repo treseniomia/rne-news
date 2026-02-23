@@ -19,6 +19,11 @@ export const useLogin = () => {
     console.log("Login clicked!");
   };
 
+  // Idagdag lang ito sa loob ng useLogin hook mo:
+  const handleGoogleLogin = () => console.log("Google Auth Triggered!");
+  const handleAppleLogin = () => console.log("Apple Auth Triggered!");
+  const handleFacebookLogin = () => console.log("Facebook Auth Triggered!");
+
   // I-return lahat ng kailangan ng UI
   return {
     email,
@@ -28,5 +33,9 @@ export const useLogin = () => {
     showPassword,
     setShowPassword,
     handleLogin,
+
+    handleGoogleLogin,
+    handleAppleLogin,
+    handleFacebookLogin,
   };
 };
