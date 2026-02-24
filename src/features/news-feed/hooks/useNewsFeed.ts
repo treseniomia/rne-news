@@ -1,5 +1,3 @@
-
-
 import { useCallback, useEffect, useState } from "react";
 import { newsService } from "../services/newsService";
 import { Article, NewsCategory } from "../types";
