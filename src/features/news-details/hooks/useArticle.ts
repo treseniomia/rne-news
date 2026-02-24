@@ -8,9 +8,11 @@ export const useArticle = (id: string) => {
 
   useEffect(() => {
     const fetchArticle = async () => {
+      if (!id) return;
       setIsLoading(true);
       try {
-        const allNews = await newsService.getLatestNews();
+        const allNews = await newsService.getDevNews();
+
         const found = allNews.find((a) => a.id === id);
         setArticle(found || null);
       } catch (error) {
@@ -19,8 +21,7 @@ export const useArticle = (id: string) => {
         setIsLoading(false);
       }
     };
-
-    if (id) fetchArticle();
+    fetchArticle();
   }, [id]);
 
   return { article, isLoading };

@@ -1,7 +1,12 @@
 import { NewsDetailsScreen } from "@features/news-details/screens/NewsDetailsScreen";
 import { useLocalSearchParams } from "expo-router";
 
-export default function Page() {
+export default function DetailsPage() {
   const { id } = useLocalSearchParams();
-  return <NewsDetailsScreen id={id as string} />;
+
+  const finalId = Array.isArray(id) ? id.join("/") : id;
+
+  if (!finalId) return null;
+
+  return <NewsDetailsScreen id={finalId} />;
 }
