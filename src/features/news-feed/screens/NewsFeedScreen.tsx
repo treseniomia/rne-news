@@ -2,7 +2,7 @@ import { useAppTheme } from "@core/ThemeContext";
 import { Ionicons } from "@expo/vector-icons";
 import { NewsItem } from "@shared/components/NewsItem";
 import { useRouter } from "expo-router";
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import {
   FlatList,
   ScrollView,
@@ -21,8 +21,6 @@ export const NewsFeedScreen = () => {
   const router = useRouter();
   const { theme } = useAppTheme();
   const [searchQuery, setSearchQuery] = useState("");
-
-  // Custom Hook for Logic
   const {
     articles,
     isLoading,
@@ -32,17 +30,29 @@ export const NewsFeedScreen = () => {
     categories,
   } = useNewsFeed();
 
-  // Memoized Styles
   const styles = useMemo(() => createStyles(theme), [theme]);
 
-  // Derived State: Filtering Logic
   const filteredArticles = useMemo(() => {
     return articles.filter((article) =>
       article.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
   }, [articles, searchQuery]);
 
-  // 🦴 Loading State:
+  const renderArticle = useCallback(
+    ({ item }: { item: any }) => (
+      <NewsItem
+        article={item}
+        onPress={(id) => {
+          router.push({
+            pathname: "/details/[id]",
+            params: { id: id },
+          });
+        }}
+      />
+    ),
+    [router]
+  );
+
   if (isLoading && articles.length === 0) {
     return <NewsFeedSkeleton />;
   }
@@ -51,14 +61,12 @@ export const NewsFeedScreen = () => {
     <SafeAreaView
       style={[styles.container, { backgroundColor: theme.colors.background }]}
     >
-      {/* 1. Header Section */}
       <View style={styles.header}>
         <Text style={[styles.headerTitle, { color: theme.colors.text.main }]}>
           RNE News
         </Text>
       </View>
 
-      {/* 2. Search Section */}
       <View
         style={[
           styles.searchContainer,
@@ -92,7 +100,6 @@ export const NewsFeedScreen = () => {
         )}
       </View>
 
-      {/* 3. Horizontal Categories */}
       <View>
         <ScrollView
           horizontal
@@ -129,32 +136,22 @@ export const NewsFeedScreen = () => {
         </ScrollView>
       </View>
 
-      {/* 4. Main Feed */}
       <FlatList
         data={filteredArticles}
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.listContent}
         onRefresh={refresh}
         refreshing={isLoading}
-        showsVerticalScrollIndicator={false}
-        renderItem={({ item }) => (
-          <NewsItem
-            article={item}
-            onPress={(id) => router.push(`/details/${id}`)}
-          />
-        )}
+        renderItem={renderArticle}
         ListEmptyComponent={
-          <View style={styles.center}>
+          <View style={{ flex: 1, alignItems: "center", marginTop: 50 }}>
             <Ionicons
               name="search-outline"
               size={50}
               color={theme.colors.border}
             />
-            <Text
-              style={[styles.emptyText, { color: theme.colors.text.muted }]}
-            >
+            <Text style={{ color: theme.colors.text.muted }}>
               No matches found
-              {/* "{searchQuery}" */}
             </Text>
           </View>
         }
